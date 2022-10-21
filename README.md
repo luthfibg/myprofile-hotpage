@@ -2,7 +2,7 @@
 ## Preview Front Page
 
 <div align="center">
-  <img src="previewpage.png" alt="Front page image" width="500" height="250"/>
+  <img src="previewpage.png" alt="Front page image" width="800" height="400"/>
 </div>
 
-<p>This project is for fullfill Web Programming 1 2nd subject</p>
+<p align-text="center">This project is for fullfill Web Programming 1 2nd subject</p>
