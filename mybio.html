@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet/less" type="text/css" href="campfire.css" />
+    <title>Latihan WebPro - About Me</title>
+  </head>
+  <body>
+    <div class="preloader">
+      <div class="counter">0</div>
+    </div>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@200&family=Josefin+Slab:wght@200&display=swap');
+      body {
+        width: 100%;
+        height: fit-content;
+        color: white;
+        background: linear-gradient(#173645, #171c1d);
+      }
+      .preloader {
+        background: #173645;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: fixed;
+        z-index: 100;
+      }
+      .preloader::before {
+        content: '';
+        position: absolute;
+        font-size: 5em;
+        font-weight: normal;
+        text-transform: uppercase;
+        color: rgba(251, 249, 254, 0.3);
+      }
+      .preloader.active {
+        transform: translateY(-100vh);
+        transition: ease-in-out 2s;
+        transition-delay: 0.5s;
+      }
+      .counter {
+        position: relative;
+        color: #fff;
+        font-size: 8em;
+        font-weight: 700;
+        z-index: 1;
+      }
+      .counter::after {
+        content: '%';
+        font-size: 1em;
+      }
+      .hide {
+        opacity: 0;
+        transition: 1s;
+        pointer-events: none;
+      }
+      .wrapper {
+        position: relative;
+        top: 10%;
+        width: 100%;
+        height: 30%;
+      }
+      .switch-warp {
+        position: absolute;
+        top: 50%;
+        left: 49%;
+        transform: translate(-50px, 540%);
+        z-index: 99;
+        transition: all 500ms linear;
+      }
+      #switch,
+      #circle {
+        height: 31px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.54, 1.6, 0.5, 1);
+      }
+      #switch {
+        width: 60px;
+        margin: 0 auto;
+        border: 2px solid #fec22a;
+        border-radius: 27px;
+        background: #ff9400;
+        position: relative;
+        display: inline-block;
+        margin: 0px 20px;
+        transform: translateX(10px);
+      }
+      #circle {
+        margin-top: 5%;
+        margin-left: 5%;
+        width: 40%;
+        height: 80%;
+        border-radius: 50%;
+        box-shadow: 0px 4px 4px rgba(26, 53, 71, 0.25), 0 0 0 1px rgba(26, 53, 71, 0.07);
+        background: #e9e5d5;
+      }
+      .switched {
+        border-color: #777 !important;
+        background: #000 !important;
+      }
+      .switched #circle {
+        margin-left: 55%;
+        background: #e9e5d5;
+      }
+      .section-center {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        top: 40%;
+        left: 50%;
+        z-index: 5;
+        transform: translate(-50%, -10%);
+      }
+      .wood {
+        position: absolute;
+        z-index: 21;
+        left: 50%;
+        bottom: 12%;
+        width: 100px;
+        margin-left: -50px;
+        height: 53px;
+        background-image: url('woodpile.png');
+        background-size: 100px 53px;
+        transform: scale(3);
+      }
+      .wood-circle {
+        position: absolute;
+        z-index: 20;
+        left: 50%;
+        bottom: 11%;
+        margin-left: -60px;
+        height: 26px;
+        border-radius: 100%;
+        background-color: #0a171d;
+        transform: scale(3);
+        width: 120px;
+      }
+      .fire {
+        position: absolute;
+        z-index: 999;
+        width: 2px;
+        margin-left: -1px;
+        left: 50%;
+        bottom: 120px;
+        transform: scale(3);
+        transition: all 1200ms linear;
+      }
+      .fire span {
+        display: block;
+        position: absolute;
+        bottom: -15px;
+        margin-left: -20px;
+        width: 0;
+        height: 0;
+        border: 30px solid #febd08;
+        border-radius: 50%;
+        border-top-left-radius: 0;
+        left: -9px;
+        box-shadow: 0 0 10px 5px rgba(244, 110, 28, 0.8), 0 0 20px 10px rgba(244, 110, 28, 0.6), 0 0 30px 15px rgba(244, 110, 28, 0.3);
+        transform: scale(0.45, 0.75) rotate(45deg);
+        animation: campfires 2.5s alternate infinite;
+        z-index: 9;
+        transition: all 1200ms linear;
+      }
+      .fire span::after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -30px;
+        margin-left: -5px;
+        height: 30px;
+        width: 12px;
+        background-color: rgba(244, 110, 28, 0.7);
+        border-radius: 80px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        box-shadow: 0 0 20px 10px rgba(244, 110, 28, 0.7);
+        left: -9px;
+        opacity: 0.8;
+        transform: rotate(-50deg);
+      }
+      .fire span:nth-child(2) {
+        left: -22px;
+        transform: scale(0.3, 0.55) rotate(15deg);
+        z-index: 8;
+        animation: campfire 1.5s alternate infinite;
+      }
+      .fire span:nth-child(3) {
+        left: 4px;
+        transform: scale(0.3, 0.55) rotate(80deg);
+        z-index: 8;
+        animation: campfire 2s alternate infinite;
+      }
+      @keyframes campfire {
+        0%,
+        100% {
+          box-shadow: 0 0 5px rgba(244, 110, 28, 0.8), 0 0 10px rgba(244, 110, 28, 0.6), 0 0 15px rgba(244, 110, 28, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 7px rgba(244, 110, 28, 0.8), 0 0 14px rgba(244, 110, 28, 0.6), 0 0 21px rgba(244, 110, 28, 0.3);
+        }
+      }
+      .smoke {
+        position: absolute;
+        z-index: 40;
+        width: 2px;
+        margin-left: -1px;
+        left: 50%;
+        bottom: 106px;
+        opacity: 0;
+        transition: all 800ms linear;
+        transform: scale(2);
+      }
+      .smoke span {
+        display: block;
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        margin-left: -20px;
+        width: 0;
+        height: 0;
+        border: 30px solid rgba(0, 0, 0, 0.6);
+        border-radius: 22px;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+        left: -9px;
+        opacity: 0;
+        transform: scale(0.2, 0.2) rotate(-45deg);
+      }
+      .smoke .smoke-0 {
+        animation: smokeLeft 7s 0s infinite;
+      }
+      .smoke .smoke-1 {
+        animation: smokeRight 7s 0.7s infinite;
+      }
+      .smoke .smoke-2 {
+        animation: smokeLeft 7s 1.4s infinite;
+      }
+      .smoke .smoke-3 {
+        animation: smokeRight 7s 2.1s infinite;
+      }
+      .smoke .smoke-4 {
+        animation: smokeLeft 7s 2.8s infinite;
+      }
+      .smoke .smoke-5 {
+        animation: smokeRight 7s 3.5s infinite;
+      }
+      .smoke .smoke-6 {
+        animation: smokeLeft 7s 4.2s infinite;
+      }
+      .smoke .smoke-7 {
+        animation: smokeRight 7s 4.9s infinite;
+      }
+      .smoke .smoke-8 {
+        animation: smokeLeft 7s 5.6s infinite;
+      }
+      .smoke .smoke-9 {
+        animation: smokeRight 7s 6.3s infinite;
+      }
+      @keyframes smokeLeft {
+        0% {
+          transform: scale(0.2, 0.2) translate(0, 0) rotate(-45deg);
+        }
+        10% {
+          opacity: 1;
+          transform: scale(0.2, 0.3) translate(0, -5px) rotate(-45deg);
+        }
+        60% {
+          opacity: 0.6;
+          transform: scale(0.3, 0.5) translate(-10px, -80px) rotate(-45deg);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.4, 0.8) translate(-20px, -120px) rotate(-45deg);
+        }
+      }
+      @keyframes smokeRight {
+        0% {
+          transform: scale(0.2, 0.2) translate(0, 0) rotate(-45deg);
+        }
+        10% {
+          opacity: 1;
+          transform: scale(0.2, 0.3) translate(0, -5px) rotate(-45deg);
+        }
+        60% {
+          opacity: 0.6;
+          transform: scale(0.3, 0.5) translate(10px, -80px) rotate(-45deg);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.4, 0.8) translate(20px, -120px) rotate(-45deg);
+        }
+      }
+      body.fire-off .smoke {
+        opacity: 1;
+        transition-delay: 0.8s;
+      }
+      body.fire-off .fire span {
+        bottom: -35px;
+        left: -9px;
+        transform: scale(0.15, 0.15) rotate(45deg);
+      }
+      .main {
+        position: relative;
+        width: 100%;
+        height: fit-content;
+        text-align: center;
+        background-color: transparent;
+        margin-top: 10%;
+        margin-bottom: 8%;
+      }
+      .main .row h1 {
+        font-family: 'Josefin Slab', sans-serif;
+      }
+      .main .main-row .right-col {
+        font-family: 'Josefin Slab', sans-serif;
+        font-size: 14pt;
+      }
+      .main .main-row .left-col {
+        font-family: 'Encode Sans Condensed', sans-serif;
+        font-size: 14pt;
+      }
+      @media (max-width: 575.98px) {
+        .main .main-row .left-row .br {
+          margin-bottom: 2rem;
+        }
+      }
+    </style>
+    <div class="wrapper">
+      <div class="switch-warp">
+        <div id="switch">
+          <div id="circle"></div>
+        </div>
+      </div>
+      <div class="section-center">
+        <div class="wood-circle"></div>
+        <div class="wood"></div>
+        <div class="fire">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="smoke">
+          <span class="smoke-0"></span>
+          <span class="smoke-1"></span>
+          <span class="smoke-2"></span>
+          <span class="smoke-3"></span>
+          <span class="smoke-4"></span>
+          <span class="smoke-5"></span>
+          <span class="smoke-6"></span>
+          <span class="smoke-7"></span>
+          <span class="smoke-8"></span>
+          <span class="smoke-9"></span>
+        </div>
+      </div>
+    </div>
+    <div class="main container px-md-5 px-sm-3">
+      <div class="row">
+        <h1>About Me</h1>
+      </div>
+      <div class="row text-start mt-5 main-row">
+        <div class="col-md-5 col-sm-12 left-col">
+          <div class="row">
+            <span><b>Full Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Muhamad Luthfi Bangun Permadi</b></span>
+            <span>Nick Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Luthfi/Lutpi/Lupi</span>
+            <span>Birth Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 26 November 2001</span>
+            <span>Current Living&nbsp;&nbsp;&nbsp;: Baleendah, Bandung</span>
+          </div>
+          <div class="row my-3">
+            <span>Instantion/Org&nbsp;&nbsp;: STT Bandung</span>
+            <span>Sunrisenov IG&nbsp;&nbsp;&nbsp;: @sunrisenov</span>
+            <span>YT Channel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Sebelas Level</span>
+          </div>
+          <div class="row mb-4 mb-lg-0 br">
+            <span>E-mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: luthfinewzoneonline@gmail.com</span>
+            <span>Github&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: luthfibg</span>
+            <span>LinkedIn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Muhamad Luthfi</span>
+          </div>
+        </div>
+        <div class="col-md-7 col-sm-12 right-col">
+          <p>
+            Dear all, &#128075 <br />
+            Muhamad Luthfi Bangun Permadi is a student at STT Bandung. He majored in <i>Informatics Technology.</i>
+            It all started with his interest with cars. After graduated from Junior High School, He decided to study at
+            <i>Bina Karya 2 Karanganyar Vocational School.</i> And chose Automotive major. But without realizing this is huge hidden mistake.
+          </p>
+          <p>After such a long time, his interest started changing. The shift in obsession and the seeds for embracing the future are moving towards information technology. He had seen the field as having great potential and a bright future. Finally he majored in Informatics Technology. And now he feels there is nothing to regret, progress for progress is continuing and he is making. For the sake of his big goal: "Making parents happy".</p>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+      function counter() {
+        let count = setInterval(function () {
+          let c = parseInt($('.counter').text());
+          $('.counter').text((++c).toString());
+          if (c == 100) {
+            clearInterval(count);
+            $('.counter').addClass('hide');
+            $('.preloader').addClass('active');
+          }
+        }, 30);
+      }
+      counter();
+      $('#switch').on('click', function () {
+        if ($('body').hasClass('fire-off')) {
+          $('body').removeClass('fire-off');
+          $('#switch').removeClass('switched');
+        } else {
+          $('body').addClass('fire-off');
+          $('#switch').addClass('switched');
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>

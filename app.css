@@ -1,0 +1,13 @@
+body {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.cf {
+  background: #372113;
+}
+
+.main .container-fluid {
+  background-color: ghostwhite;
+}
